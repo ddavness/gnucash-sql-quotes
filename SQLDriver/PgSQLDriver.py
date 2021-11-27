@@ -22,7 +22,7 @@ class PgSQLDriver():
         self.cnx = None
 
     def execute(self, query = "", params = tuple()) -> list:
-        if self.cnx:
+        if self.cnx is None:
             raise ValueError("Connection not established yet!")
         
         with self.cnx.cursor() as c:
