@@ -17,6 +17,7 @@ class PgSQLDriver():
         return self
 
     def __exit__(self, _et, _ev, _tb):
+        self.cnx.commit()
         self.cnx.close()
         self.cnx = None
 
@@ -26,6 +27,4 @@ class PgSQLDriver():
         
         with self.cnx.cursor() as c:
             c.execute(query, params)
-            dump = c.fetchall()
-            c.commit()
-            return dump
+            return c.fetchall()
