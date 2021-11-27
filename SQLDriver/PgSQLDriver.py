@@ -16,7 +16,7 @@ class PgSQLDriver():
             raise ValueError("No database specified!")
 
         self.url = f"postgresql://{userspec}{host}:{port}/{database}"
-    
+
     def __enter__(self):
         self.cnx = psycopg.connect(self.url)
         return self
