@@ -4,10 +4,15 @@ class PgSQLDriver():
     cnx = None
 
     def __init__(self, host = "localhost", database = None, user = None, pw = None, port = 5432) -> None:
-        super().__init__()
-        userspec = f"{user}:{pw}@" if user is not None and pw is not None \
-            else (f"{user}@" if user is not None else "")
-        if database is None:
+        userspec = ""
+        if user is not None and user.strip() != "" and pw is not None and pw.strip() != "":
+            userspec = f"{user}:{pw}@"
+        elif user is not None and user.strip() != "":
+            userspec = f"{user}@"
+        elif pw is not None and pw.strip() != "":
+            raise ValueError("When specifying a password, the username is required!")
+
+        if database is None or database.strip() == "":
             raise ValueError("No database specified!")
 
         self.url = f"postgresql://{userspec}{host}:{port}/{database}"
