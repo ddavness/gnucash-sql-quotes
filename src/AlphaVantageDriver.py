@@ -88,7 +88,6 @@ def pack_into_dated_dict(key_sample = ""):
             # Figure out the key we're looking for based on the sample
             for k in dump.get(list(dump.keys())[0]).keys():
                 if k.startswith(key_sample):
-                    print(k)
                     kw = k
                     break
 
@@ -103,10 +102,6 @@ def pack_into_dated_dict(key_sample = ""):
     return meta
 
 class AlphaVantageDriver():
-    fx_driver = None
-    cc_driver = None
-    mkt_driver = None
-
     def __init__(self, apikey = "") -> None:
         if apikey is None or apikey.strip() == "":
             raise ValueError("No API Key provided!")
@@ -129,3 +124,22 @@ class AlphaVantageDriver():
     @pack_into_dated_dict(key_sample = "4.")
     def mkt(self, full_history = False, symbol = ""):
         return self.mkt_driver.get_daily(symbol = symbol, outputsize = "full" if full_history else "compact")
+
+    @av_rate_limit
+    def search_stock(self, content):
+        """
+        Checks whether AlphaVantage tracks the given stock/fund, and if so, it's currency denomination
+        """
+        matches = [{
+                    "symbol": entry.get("1. symbol"),
+                    "name": entry.get("2. name"),
+                    "currency": entry.get("8. currency"),
+                    "match": float(entry.get("9. matchScore"))
+                } for entry in self.mkt_driver.get_symbol_search(keywords = content)[0]]
+
+        # For the sake of simplicity, we'll fail if the match score isn't a perfect 1.
+        for entry in matches:
+            if entry.get("match") == 1:
+                return entry
+
+        return matches
