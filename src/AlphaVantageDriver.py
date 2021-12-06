@@ -118,23 +118,14 @@ class AlphaVantageDriver():
     @av_rate_limit
     @pack_into_dated_dict(key_sample = "4.")
     def fx(self, full_history = False, symbol = "", to = ""):
-        x = self.fx_driver.get_currency_exchange_daily(from_symbol = symbol, to_symbol = to, outputsize = "full" if full_history else "compact")
-        import pprint
-        pprint.pprint(x)
-        return x
+        return self.fx_driver.get_currency_exchange_daily(from_symbol = symbol, to_symbol = to, outputsize = "full" if full_history else "compact")
 
     @av_rate_limit
     @pack_into_dated_dict(key_sample = "4a.")
     def crypto(self, symbol = "", to = "USD"):
-        x = self.cc_driver.get_digital_currency_daily(symbol, to)
-        import pprint
-        pprint.pprint(x)
-        return x
+        return self.cc_driver.get_digital_currency_daily(symbol, to)
 
     @av_rate_limit
     @pack_into_dated_dict(key_sample = "4.")
     def mkt(self, full_history = False, symbol = ""):
-        x = self.mkt_driver.get_daily(symbol = symbol, outputsize = "full" if full_history else "compact")
-        import pprint
-        pprint.pprint(x)
-        return x
+        return self.mkt_driver.get_daily(symbol = symbol, outputsize = "full" if full_history else "compact")
