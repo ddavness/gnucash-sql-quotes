@@ -1,6 +1,7 @@
 # Wrapper for the AV API
 
 import asyncio, time, warnings
+from decimal import Decimal as dfloat
 from datetime import date, datetime, timedelta
 from alpha_vantage import foreignexchange, timeseries, cryptocurrencies
 
@@ -94,7 +95,7 @@ def pack_into_dated_dict(key_sample = ""):
             data = DatedDict()
 
             for date in dump.keys():
-                data.add(date, float(dump.get(date).get(kw)))
+                data.add(date, dfloat(dump.get(date).get(kw)))
 
             return data
         return g
