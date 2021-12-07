@@ -4,6 +4,11 @@ class PgSQLDriver():
     cnx = None
 
     def __init__(self, host = "localhost", database = None, user = None, pw = None, port = 5432) -> None:
+        if host is None:
+            host = "localhost"
+        if port is None:
+            port = 5432
+        
         userspec = ""
         if user is not None and user.strip() != "" and pw is not None and pw.strip() != "":
             userspec = f"{user}:{pw}@"

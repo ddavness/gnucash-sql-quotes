@@ -5,6 +5,11 @@ class MySQLDriver():
     data = dict()
 
     def __init__(self, host = "localhost", database = None, user = None, pw = None, port = 3306) -> None:
+        if host is None:
+            host = "localhost"
+        if port is None:
+            port = 3306
+
         if user is not None and user.strip() != "" and pw is not None and pw.strip() != "":
             self.data["user"] = user
             self.data["password"] = pw
