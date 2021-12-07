@@ -1,2 +1,3 @@
-SELECT c.guid, c.mnemonic FROM commodities c
-    WHERE c.quote_source = 'quotes.py';
+SELECT c.mnemonic, c.guid, qc.currency_guid FROM commodities c, quote_currencies qc
+    WHERE c.quote_source = 'quotes.py'
+    AND c.guid = qc.guid;

@@ -7,8 +7,9 @@ _HERE = path.dirname(path.abspath(__file__))
 _REGEX = re.compile(r"\/\*(.+)\*\/")
 
 _QUERY_CLEANUP = None
-
 _QUERY_FETCH_COMMODITIES = None
+_QUERY_QC_SETUP = None
+_QUERY_QC_TDOWN = None
 
 _QUERY_INSERT_PRICES = None
 _MTXES_INSERT_PRICES = None
@@ -27,6 +28,12 @@ with open(path.join(_HERE, "Cleanup.sql"), "r") as f:
 with open(path.join(_HERE, "FetchCommodities.sql"), "r") as f:
     _QUERY_FETCH_COMMODITIES = f.read()
 
+with open(path.join(_HERE, "QuoteCurrencyTableSetup.sql"), "r") as f:
+    _QUERY_QC_SETUP = f.read()
+
+with open(path.join(_HERE, "QuoteCurrencyTableTeardown.sql"), "r") as f:
+    _QUERY_QC_TDOWN = f.read()
+
 with open(path.join(_HERE, "InsertPrices.sql"), "r") as f:
     _QUERY_INSERT_PRICES = f.read()
     _MTXES_INSERT_PRICES = _REGEX.search(_QUERY_INSERT_PRICES)
@@ -40,6 +47,12 @@ def cleanup():
 
 def fetch_commodities():
     return _QUERY_FETCH_COMMODITIES
+
+def setup_qc_table():
+    return _QUERY_QC_SETUP
+
+def teardown_qc_table():
+    return _QUERY_QC_TDOWN
 
 def insert_prices(prices):
     # Each price is a tuple of the format (commodity_guid, currency_guid, date, price)
