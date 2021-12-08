@@ -1,6 +1,7 @@
 # Stores the content of the queries to be re-used
 
 import re, uuid
+from datetime import datetime
 from os import path
 
 _HERE = path.dirname(path.abspath(__file__))
@@ -63,7 +64,7 @@ def insert_prices(prices):
         uuid.uuid5(uuid.uuid4(), p[0]).hex,
         p[0],
         p[1],
-        p[2],
+        datetime.combine(p[2], datetime.min.time()),
         "user:price",
         "last",
         p[3].as_integer_ratio()[0],
