@@ -1,4 +1,4 @@
-INSERT INTO prices (
+REPLACE INTO prices (
     'guid',
     'commodity_guid',
     'currency_guid',

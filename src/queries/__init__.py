@@ -1,7 +1,7 @@
 # Stores the content of the queries to be re-used
 
 import re, uuid
-from datetime import datetime
+from datetime import datetime, time
 from os import path
 
 _HERE = path.dirname(path.abspath(__file__))
@@ -61,10 +61,10 @@ def insert_prices(prices):
         return None # Nothing to do
 
     return _repeat_replace(_QUERY_INSERT_PRICES, _MTXES_INSERT_PRICES, len(prices)), _flatten([(
-        uuid.uuid5(uuid.uuid4(), p[0]).hex,
+        uuid.uuid5(uuid.UUID(hex = p[0]), p[2].isoformat()).hex,
         p[0],
         p[1],
-        datetime.combine(p[2], datetime.min.time()),
+        datetime.combine(p[2], time.time(0, 0, 0)),
         "user:price",
         "last",
         p[3].as_integer_ratio()[0],
