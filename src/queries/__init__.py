@@ -64,7 +64,7 @@ def insert_prices(prices):
         uuid.uuid5(uuid.UUID(hex = p[0]), p[2].isoformat()).hex,
         p[0],
         p[1],
-        datetime.combine(p[2], time.time(0, 0, 0)),
+        datetime.combine(p[2], time(0, 0, 0)),
         "user:price",
         "last",
         p[3].as_integer_ratio()[0],
