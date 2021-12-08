@@ -85,7 +85,14 @@ def fill(ctx, from_date, to_date, until_yesterday):
             for quote in qts.iter(to_date, from_date):
                 if quote[1] is None:
                     continue
-                quotes_global.append((row[3], row[4], quote[0], quote[1]))
+                price = quote[1]
+                if row[2] == "GBP" and row[0] not in ("CURRENCY", "CRYPTO", "CRYPTOCURRENCY"):
+                    # Prices are displayed in GBX (Pence Sterling) rather than GBP (Pound Sterling)
+                    # It's like displaying prices in cents or something like that. We need to handle
+                    # this edge case manually.
+                    price = price / 100
+
+                quotes_global.append((row[3], row[4], quote[0], price))
         
         log("Inserting prices...")
         query, query_params = queries.insert_prices(quotes_global)
